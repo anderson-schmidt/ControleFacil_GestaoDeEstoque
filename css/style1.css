@@ -41,7 +41,7 @@ h2{
 	align-items: center;
 	align-content: center;
 	justify-content: center;
-	width:450px;
+	width: 530px;
 	height:250px;
 	margin-left:70px;
 	padding:20px 20px 20px 20px;/*margens internas do bloco - superior,direito, inferior e esquerdo 20 px */
@@ -53,7 +53,7 @@ h2{
 
 .botao{
 	padding-left: none;
-	margin-left: 15px;
+	/*margin-left: 15px;*/
 	color:black;
 	border: none;
     padding: 10px;
@@ -74,10 +74,32 @@ h2{
 	background-color: #011629;
 }
 
+.btn_sair{
+color:black;
+border-radius: 10px;
+box-shadow:2px 4px 8px black;
+}
+.btn_sair:hover{
+	background-color: gray;
+}
+
+.btn_sair:active{
+	background-color: #011629;
+	color: white;
+}
+
 .boasVindas{
 	display: flex;
 	justify-content: right;
 	margin-top: 20px;
 	margin-right: 20px;
 	text-shadow: 2px 4px 8px black;
+}
+
+.bv{
+	padding-right: 10px;
+}
+
+.scnd_line{
+	
 }
