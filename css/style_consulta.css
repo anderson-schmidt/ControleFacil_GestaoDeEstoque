@@ -99,3 +99,64 @@ box-shadow:2px 4px 8px black;
 .bv{
 	padding-right: 10px;
 }
+
+.rodape{
+	display: flex;
+	justify-content: right;
+	margin-right: 25px;
+	text-shadow: 2px 4px 8px black;
+}
+
+.txt_cons{
+	color: black;
+	border-radius: 10px;
+	width: 300px;
+}
+
+.cons{
+	margin-left: 350px;
+	padding-left: 25px;
+	padding-top: 50px;
+}
+
+.btn_enviar{
+	color: black;
+	border-radius: 10px;
+}
+
+.tabela_cons td{
+	padding-left: 20px;
+}
+
+.txt_lote{
+	color: black;
+	border-radius: 10px;
+	width: 100px;
+}
+
+.lupa{
+	height: 20px;
+}
+
+.resultado{
+	height: 450px;
+	background-color: #006ece;
+	margin-inline: 200px;
+	margin-top: 10px;
+	margin-bottom: 10px;
+	border-radius: 5px;
+}
+
+.back_btn{
+	color:black;
+	border: none;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background .3s;
+    border-radius: 5px;
+	box-shadow:2px 4px 8px black;
+	width: 50px;
+	height:25px;
+	align-content: center;
+	margin-right: 170px;
+}
