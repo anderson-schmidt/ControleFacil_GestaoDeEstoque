@@ -1,3 +1,8 @@
+<?php 
+    session_start();
+    require_once('database/database.php');
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -78,7 +83,7 @@
     </div>
     <footer>
         <div class="rodape">
-            <input type="button" class="back_btn" value="Voltar" onclick="history.go(-1)">
+        <a href="telaPrincipal.php"><button class="back_btn">Voltar</button></a>
         </div>
     </footer>
 </body>

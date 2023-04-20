@@ -1,3 +1,8 @@
+<?php 
+    session_start();
+    require_once('database/database.php');
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -32,7 +37,7 @@
                 </td>
                 <td>
                     <!--<input type="submit" value="Enviar" name="data" class="btn_enviar">-->
-                    <a href=""><img src="/assets/lupa.png" class="lupa"></a>
+                    <button type="submit" class="btn_sbmt"><img src="/assets/lupa.png" class="lupa"></button>
                 </td>
             </tr>
         </table>
@@ -41,7 +46,7 @@
     </div>
     <footer>
         <div class="rodape">
-            <input type="button" class="back_btn" value="Voltar" onclick="history.go(-1)">
+        <a href="telaPrincipal.php"><button class="back_btn">Voltar</button></a>
         </div>
     </footer>
 </body>

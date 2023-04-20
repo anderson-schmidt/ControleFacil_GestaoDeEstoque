@@ -163,18 +163,46 @@ box-shadow:2px 4px 8px black;
 
 .tbl_cons{
 	padding: 25px;
+	
 }
 
 .tbl_cons td{
-	padding-left: 25px
+	text-align: center;
+	padding: 5px;
+	padding-left: 10px;
+	padding-right: 10px;
+	
 }
 
 .td_nome{
-	width: 250px;
+	width: 500px;
 	text-align: center;
 }
 
 .td_lote{
 	width: 100px;
 	text-align: center;
+}
+
+.btn_sbmt{
+border: none;
+	background-color: transparent;
+	
+}
+
+.btn_sbmt:hover{
+	cursor: pointer;
+}
+
+.corpo tr:nth-child(odd){
+	text-align: center;
+	background-color: #040076;
+}
+
+.corpo tr:nth-child(even){
+	text-align: center;
+}
+
+.cabeca{
+	background-color: #011629;
 }

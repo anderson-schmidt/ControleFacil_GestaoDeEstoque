@@ -1,3 +1,8 @@
+<?php
+session_start();
+require_once('database/database.php');
+?>
+
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -28,23 +33,23 @@
             <table>
                 <tr>
                     <td>
-                        <a href="../consulta.php"><button class="botao" type="button">Consulta Estoque</button></a>
+                        <a href="/pages/consulta.php"><button class="botao" type="button">Consulta Estoque</button></a>
                     </td>
                     <td>
-                        <a href="../entrada.php"><button class="botao" type="button">Entrada</button></a>
+                        <a href="/pages/entrada.php"><button class="botao" type="button">Entrada</button></a>
                     </td>
                     <td>
-                        <a href="../saida.php"><button class="botao" type="button">Saída</button></a>
+                        <a href="/pages/saida.php"><button class="botao" type="button">Saída</button></a>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <a href="../consulta_precos.php"><button class="botao" type="button">Consulta Preços</button></a>
+                        <a href="/pages/consulta_precos.php"><button class="botao" type="button">Consulta Preços</button></a>
                     </td>
                     <td>
                     </td>
                     <td>
-                        <a href="../historico.php"><button class="botao" type="button">Histórico</button></a>
+                        <a href="/pages/historico.php"><button class="botao" type="button">Histórico</button></a>
                     </td>
                 </tr>
             </table>

@@ -1,4 +1,5 @@
 <?php
+    session_start();
     #error_reporting(E_ERROR | E_PARSE);
     $mysqli = new mysqli("banco", "user", "user", "controlefacil");
     if ($mysqli->connect_errno) {
