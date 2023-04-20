@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,42 +11,45 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
     <title>Controle Fácil – Gestão de Estoque</title>
 </head>
+
 <body>
-    <header >
+    <header>
         <div class="boasVindas">
             <div class="bv">
-                Bem vindo <?php echo $_SESSION['user']?>
+                Bem vindo
+                <?php echo $_SESSION['user'] ?>
             </div>
-            <a href="/index.html"><button class="btn_sair" type="button">Sair</button></a>
+            <a href="/index.php"><button class="btn_sair" type="button">Sair</button></a>
         </div>
     </header>
     <div class="flex-container">
-        
+
         <div id="box">
             <table>
                 <tr>
                     <td>
-                        <a href="consulta.html"><button class="botao" type="button">Consulta Estoque</button></a>
+                        <a href="consulta.php"><button class="botao" type="button">Consulta Estoque</button></a>
                     </td>
                     <td>
-                        <a href="entrada.html"><button class="botao" type="button">Entrada</button></a>
+                        <a href="entrada.php"><button class="botao" type="button">Entrada</button></a>
                     </td>
                     <td>
-                        <a href="saida.html"><button class="botao" type="button">Saída</button></a>
+                        <a href="saida.php"><button class="botao" type="button">Saída</button></a>
                     </td>
                 </tr>
                 <tr>
                     <td>
-                        <button class="botao" type="button">Consulta Preços</button>
+                        <a href="consulta_precos.php"><button class="botao" type="button">Consulta Preços</button></a>
                     </td>
                     <td>
                     </td>
                     <td>
-                        <button class="botao" type="button">Histórico</button>
+                        <a href="historico.php"><button class="botao" type="button">Histórico</button></a>
                     </td>
                 </tr>
             </table>
         </div>
     </div>
 </body>
+
 </html>
