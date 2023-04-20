@@ -1,0 +1,25 @@
+version: "3.9"
+services:
+  webapp:
+    build:
+      context: .
+    image: controlefacil
+    volumes:
+      - .:/var/www/html/
+    ports:
+      - 8080:80
+  
+  banco:
+    image: mariadb
+    environment:
+      - MARIADB_ROOT_PASSWORD=aula
+      - MARIADB_DATABASE=controlefacil
+      - MARIADB_USER=user
+      - MARIADB_PASSWORD=user
+    ports:
+      - 3306:3306
+
+  adminer:
+    image: adminer
+    ports:
+      - 9999:8080

@@ -14,7 +14,7 @@
     <header >
         <div class="boasVindas">
             <div class="bv">
-                Bem vindo ***
+                Bem vindo <?php echo $_SESSION['user']?>
             </div>
             <a href="/index.html"><button class="btn_sair" type="button">Sair</button></a>
         </div>
