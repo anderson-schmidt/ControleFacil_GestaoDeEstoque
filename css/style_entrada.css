@@ -196,3 +196,10 @@ box-shadow:2px 4px 8px black;
 .td_input{
 	padding-bottom: 20px;
 }
+
+.txt_quantia{
+	color: black;
+	border-radius: 10px;
+	width: 55px;
+	margin-left: 20px;
+}

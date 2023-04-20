@@ -16,9 +16,10 @@
     <header>
         <div class="boasVindas">
             <div class="bv">
-                Bem vindo ***
+                Bem vindo
+                <?php echo $_SESSION['user'] ?>
             </div>
-            <a href="/index.html"><button class="btn_sair" type="button">Sair</button></a>
+            <a href="/index.php"><button class="btn_sair" type="button">Sair</button></a>
         </div>
     </header>
     <div class="flex-container">
@@ -43,7 +44,7 @@
                 </tr>
                 <tr>
                     <td class="td_txt">
-                        Número do Lote: 
+                        Número do Lote:
                     </td>
                     <td class="td_input">
                         <input type="text" placeholder="Nº do lote" name="lote" class="txt_lote">
@@ -57,10 +58,18 @@
                         <input type="date" name="dt_venc" class="form_dt">
                     </td>
                 </tr>
-                <tr> 
+                <tr>
+                    <td class="td_txt">
+                        Quantidade:
+                    </td>
+                    <td class="td_input">
+                        <input type="text" placeholder="Quantia" name="qtd" class="txt_quantia">
+                    </td>
+                </tr>
+                <tr>
                     <td></td>
                 </tr>
-                <tr> 
+                <tr>
                     <td></td>
                 </tr>
                 <tr>
@@ -77,7 +86,7 @@
     </div>
     <footer>
         <div class="rodape">
-            <a href="telaPrincipal.html"><button class="back_btn" type="button">Voltar</button></a>
+            <input type="button" class="back_btn" value="Voltar" onclick="history.go(-1)">
         </div>
     </footer>
 </body>

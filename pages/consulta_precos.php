@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -10,20 +11,23 @@
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
     <title>Controle Fácil – Gestão de Estoque</title>
 </head>
+
 <body>
-    <header >
+    <header>
         <div class="boasVindas">
             <div class="bv">
-                Bem vindo ***
+                Bem vindo
+                <?php echo $_SESSION['user'] ?>
             </div>
-            <button class="btn_sair" type="button">Sair</button>
+            <a href="/index.php"><button class="btn_sair" type="button">Sair</button></a>
         </div>
     </header>
+
     <div class="cons">
         <table class="tabela_cons">
             <tr>
                 <td>
-                    Nome do medicamento: 
+                    Nome do medicamento:
                     <input type="text" placeholder="insira um nome de medicamento" name="remedio" class="txt_cons">
                 </td>
                 <td>
@@ -37,8 +41,9 @@
     </div>
     <footer>
         <div class="rodape">
-            <a href="telaPrincipal.html"><button class="back_btn" type="button">Voltar</button></a>
+            <input type="button" class="back_btn" value="Voltar" onclick="history.go(-1)">
         </div>
     </footer>
 </body>
+
 </html>

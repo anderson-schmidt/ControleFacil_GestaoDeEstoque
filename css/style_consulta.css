@@ -160,3 +160,21 @@ box-shadow:2px 4px 8px black;
 	align-content: center;
 	margin-right: 170px;
 }
+
+.tbl_cons{
+	padding: 25px;
+}
+
+.tbl_cons td{
+	padding-left: 25px
+}
+
+.td_nome{
+	width: 250px;
+	text-align: center;
+}
+
+.td_lote{
+	width: 100px;
+	text-align: center;
+}
