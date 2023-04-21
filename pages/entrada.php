@@ -28,70 +28,71 @@ require_once('database/database.php');
         </div>
     </header>
     <div class="flex-container">
-
-        <div id="box">
-            <table>
-                <tr>
-                    <td class="td_txt">
-                        Nome do Medicamento:
-                    </td>
-                    <td class="td_input">
-                        <input type="text" placeholder="Insira um nome de medicamento" name="remedio" class="txt_cons">
-                    </td>
-                </tr>
-                <tr>
-                    <td class="td_txt">
-                        Data de Entrada:
-                    </td>
-                    <td class="td_input">
-                        <input type="date" name="dt_entrada" class="form_dt">
-                    </td>
-                </tr>
-                <tr>
-                    <td class="td_txt">
-                        Número do Lote:
-                    </td>
-                    <td class="td_input">
-                        <input type="text" placeholder="Nº do lote" name="lote" class="txt_lote">
-                    </td>
-                </tr>
-                <tr>
-                    <td class="td_txt">
-                        Data de vencimento:
-                    </td>
-                    <td class="td_input">
-                        <input type="date" name="dt_venc" class="form_dt">
-                    </td>
-                </tr>
-                <tr>
-                    <td class="td_txt">
-                        Quantidade:
-                    </td>
-                    <td class="td_input">
-                        <input type="text" placeholder="Quantia" name="qtd" class="txt_quantia">
-                    </td>
-                </tr>
-                <tr>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td></td>
-                </tr>
-                <tr>
-                    <td>
-                    </td>
-                    <td></td>
-                    <td>
-                        <button class="btn_confirm" type="button">Confirmar</button>
-                    </td>
-                </tr>
-            </table>
-        </div>
-
+        <form action="" method="POST">
+            <div id="box">
+                <table>
+                    <tr>
+                        <td class="td_txt">
+                            Nome do Medicamento:
+                        </td>
+                        <td class="td_input">
+                            <input type="text" placeholder="Insira um nome de medicamento" name="remedio"
+                                class="txt_cons">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td_txt">
+                            Data de Entrada:
+                        </td>
+                        <td class="td_input">
+                            <input type="date" name="dt_entrada" class="form_dt">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td_txt">
+                            Número do Lote:
+                        </td>
+                        <td class="td_input">
+                            <input type="text" placeholder="Nº do lote" name="lote" class="txt_lote">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td_txt">
+                            Data de vencimento:
+                        </td>
+                        <td class="td_input">
+                            <input type="date" name="dt_venc" class="form_dt">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td_txt">
+                            Quantidade:
+                        </td>
+                        <td class="td_input">
+                            <input type="text" placeholder="Quantia" name="qtd" class="txt_quantia">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                    </tr>
+                    <tr>
+                        <td>
+                        </td>
+                        <td></td>
+                        <td>
+                            <button class="btn_confirm" type="button">Confirmar</button>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </form>
     </div>
     <footer>
         <div class="rodape">
-        <a href="telaPrincipal.php"><button class="back_btn">Voltar</button></a>
+            <a href="telaPrincipal.php"><button class="back_btn">Voltar</button></a>
         </div>
     </footer>
 </body>

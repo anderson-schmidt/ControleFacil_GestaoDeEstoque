@@ -201,6 +201,7 @@ border: none;
 
 .corpo tr:nth-child(even){
 	text-align: center;
+	background-color: #2096fe;
 }
 
 .cabeca{

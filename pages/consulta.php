@@ -63,7 +63,7 @@ require_once('database/database.php');
                 <tr>
                     <?php
                     $sql = "SELECT * FROM medicamento
-                    INNER JOIN movimentacao
+                    LEFT JOIN movimentacao
                     ON medicamento.id = movimentacao.id_medicamento";
                     $desc = $_POST['remedio'];
                     if (isset($desc) && $desc != "") {
