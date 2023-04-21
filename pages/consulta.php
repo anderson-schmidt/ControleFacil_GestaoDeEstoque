@@ -66,7 +66,8 @@ require_once('database/database.php');
                     LEFT JOIN movimentacao
                     ON medicamento.id = movimentacao.id_medicamento";
                     $desc = $_POST['remedio'];
-                    if (isset($desc) && $desc != "") {
+                    $lot = $_POST['lote'];
+                    if (isset($desc) && $desc != "" || isset($lot) && $lot != "") {
                         $sql .= " WHERE nome = '" . $desc . "'";
                     }
                     $res = $mysqli->query($sql);
