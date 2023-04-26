@@ -18,6 +18,12 @@ require_once('database/database.php');
 </head>
 
 <body>
+    <?php 
+    if ($_SESSION['erro_msg'] != '') {
+        echo '<div class="alert alert-danger" role="alert">';
+        echo $_SESSION['erro_msg'];
+        echo '</div>';
+     } ?>
     <header>
         <div class="boasVindas">
             <div class="bv">

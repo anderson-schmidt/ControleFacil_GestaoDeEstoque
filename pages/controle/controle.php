@@ -1,23 +1,43 @@
 <?php
+    #mysqli_report(MYSQLI_REPORT_ ERROR | MYSQLI_REPORT_STRICT);
     session_start();
+    $_SESSION['erro_msg'] = "";
     #error_reporting(E_ERROR | E_PARSE);
-    $mysqli = new mysqli("banco", "user", "user", "controlefacil");
+    $mysqli = null; 
    
 
     $var_data = $_POST['dt_entrada'];
-    //$var_data = DATE($var_data);
     $reme = $_POST['remedio'];
     $lot = $_POST['lote'];
     $dt_venc = $_POST['dt_venc'];
     $qtd = $_POST['qtd'];
 
     
-    $sql = $mysqli->query("insert into medicamentos(nome, dt_vencimento, qtd, lote)
-    VALUES('$reme','$dt_venc','$qtd', '$lot', '$var_data')");
-    $id_medicamento =$mysqli->insert_id;
-    $sql = $mysqli->query("insert into entrada(dt_entrada, id_med) values('$var_data', '$id_medicamento')");
 
+    try {
+        $mysqli = new mysqli("banco", "user", "user", "controlefacil");
+        $mysqli->begin_transaction();
+        $stm = $mysqli->prepare("insert into medicamentos(nome) VALUES(?)");
+        $stm->bind_param('s',$reme);
+        $stm->execute();
+        $lastId = $mysqli->insert_id;
+        $stm = $mysqli->prepare("insert into medicamento_controle(dt_vencimento, lote, qtd,id_med) VALUES(?,?,?,?)");
+        $stm->bind_param('ssii',$dt_venc, $lot, $qtd,$lastId);
+        $stm->execute();
+        $lastId = $mysqli->insert_id;
+        $stm = $mysqli->prepare("insert into bordero(id_med_ctrl, qtd) VALUES(?,?)");
+        $stm->bind_param('ii',$lastId, $qtd*-1);
+        $stm->execute();
+        $mysqli->commit();
+    } catch (\Throwable $th) {
+        $_SESSION['erro_msg'] = $th->getMessage();
+        $mysqli->rollback();
+        include('../entrada.php'); 
+    } finally {
+        $mysqli->close();
+        include('../consulta.php'); 
+    }
+            
     
-        include('../entrada.php');     
-    $mysqli->close();
+    
 ?>

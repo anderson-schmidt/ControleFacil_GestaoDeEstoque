@@ -1,6 +1,9 @@
 <?php
 session_start();
 require_once('database/database.php');
+    $host = $_SERVER['HTTP_HOST'];
+    $protocol=$_SERVER['PROTOCOL'] = isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) ? 'https' : 'http';
+    $URL_BASE =  $protocol.'://'.$host
 ?>
 <!DOCTYPE html>
 <html lang="pt-br">
@@ -9,7 +12,7 @@ require_once('database/database.php');
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="../css/style_consulta.css">
+    <link rel="stylesheet" type="text/css" href="<?php echo $URL_BASE; ?>/css/style_consulta.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
@@ -94,7 +97,7 @@ require_once('database/database.php');
     </div>
     <footer>
         <div class="rodape">
-            <a href="telaPrincipal.php"><button class="back_btn">Voltar</button></a>
+            <a href="/pages/telaPrincipal.php"><button class="back_btn">Voltar</button></a>
         </div>
     </footer>
 </body>
