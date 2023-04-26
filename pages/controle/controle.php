@@ -10,10 +10,13 @@
     $lot = $_POST['lote'];
     $dt_venc = $_POST['dt_venc'];
     $qtd = $_POST['qtd'];
+
     
-    $sql = $mysqli->query("INSERT INTO medicamento(nome,dt_vencimento, qtd, lote) VALUES('$reme','$dt_venc','$qtd', '$lot')");
-    
-    $sql = $mysqli->query("INSERT INTO movimentacao(dt_entrada) VALUES('$var_data')");
+    $sql = $mysqli->query("insert into medicamentos(nome, dt_vencimento, qtd, lote)
+    VALUES('$reme','$dt_venc','$qtd', '$lot', '$var_data')");
+    $id_medicamento =$mysqli->insert_id;
+    $sql = $mysqli->query("insert into entrada(dt_entrada, id_med) values('$var_data', '$id_medicamento')");
+
     
         include('../entrada.php');     
     $mysqli->close();

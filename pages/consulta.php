@@ -46,9 +46,6 @@ require_once('database/database.php');
                 Nome
             </td>
             <td>
-                Data de entrada
-            </td>
-            <td>
                 Data de Validade
             </td>
             <td class="td_lote">
@@ -62,12 +59,9 @@ require_once('database/database.php');
             <tbody class="corpo">
                 <tr>
                     <?php
-                    $sql = "SELECT * FROM medicamento
-                    LEFT JOIN movimentacao
-                    ON medicamento.id = movimentacao.id_medicamento";
+                    $sql = "SELECT * FROM  medicamentos";
                     $desc = $_POST['remedio'];
-                    $lot = $_POST['lote'];
-                    if (isset($desc) && $desc != "" || isset($lot) && $lot != "") {
+                    if (isset($desc) && $desc != "") {
                         $sql .= " WHERE nome = '" . $desc . "'";
                     }
                     $res = $mysqli->query($sql);
@@ -77,9 +71,6 @@ require_once('database/database.php');
                         <tr class="tb_items">
                             <td>
                                 <?php echo $obj->nome; ?>
-                            </td>
-                            <td>
-                                <?php echo $obj->dt_entrada; ?>
                             </td>
                             <td>
                                 <?php echo $obj->dt_vencimento; ?>

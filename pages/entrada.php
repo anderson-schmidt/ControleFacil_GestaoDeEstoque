@@ -92,7 +92,7 @@ require_once('database/database.php');
     </div>
     <footer>
         <div class="rodape">
-            <a href="telaPrincipal.php"><button class="back_btn">Voltar</button></a>
+            <a href="/pages/telaPrincipal.php"><button class="back_btn">Voltar</button></a>
         </div>
     </footer>
 </body>
