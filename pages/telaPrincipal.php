@@ -33,7 +33,7 @@ require_once('database/database.php');
             <table>
                 <tr>
                     <td>
-                        <a href="/pages/consulta.php"><button class="botao" type="button">Consulta Estoque</button></a>
+                        <a href="/pages/cadastrar.php"><button class="botao" type="button">Cadastrar</button></a>
                     </td>
                     <td>
                         <a href="/pages/entrada.php"><button class="botao" type="button">Entrada</button></a>
@@ -44,12 +44,13 @@ require_once('database/database.php');
                 </tr>
                 <tr>
                     <td>
-                        <a href="/pages/consulta_precos.php"><button class="botao" type="button">Consulta Preços</button></a>
-                    </td>
-                    <td>
+                        <a href="/pages/consulta.php"><button class="botao" type="button">Consulta Estoque</button></a>
                     </td>
                     <td>
                         <a href="/pages/historico.php"><button class="botao" type="button">Histórico</button></a>
+                    </td>
+                    <td>
+                        <a href="/pages/consulta_precos.php"><button class="botao" type="button">Consulta Preços</button></a>
                     </td>
                 </tr>
             </table>
