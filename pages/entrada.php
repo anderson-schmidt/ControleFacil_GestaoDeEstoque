@@ -42,8 +42,8 @@ require_once('database/database.php');
                             Nome do Medicamento:
                         </td>
                         <td class="td_input">
-                            <input type="text" placeholder="Insira um nome de medicamento" name="remedio"
-                                class="txt_cons">
+                            <select type="text" placeholder="Insira um nome de medicamento" name="remedio"
+                                class="txt_cons"></select>
                         </td>
                     </tr>
                     <tr>
@@ -59,7 +59,7 @@ require_once('database/database.php');
                             Número do Lote:
                         </td>
                         <td class="td_input">
-                            <input type="text" placeholder="Nº do lote" name="lote" class="txt_lote">
+                            <select type="text" placeholder="Nº do lote" name="lote" class="txt_lote"></select>
                         </td>
                     </tr>
                     <tr>
