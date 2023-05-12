@@ -203,3 +203,7 @@ box-shadow:2px 4px 8px black;
 	width: 55px;
 	margin-left: 20px;
 }
+
+option {
+	color: black;
+}

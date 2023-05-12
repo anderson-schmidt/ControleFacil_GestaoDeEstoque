@@ -18,12 +18,12 @@ require_once('database/database.php');
 </head>
 
 <body>
-    <?php 
+    <?php
     if ($_SESSION['erro_msg'] != '') {
         echo '<div class="alert alert-danger" role="alert">';
         echo $_SESSION['erro_msg'];
         echo '</div>';
-     } ?>
+    } ?>
     <header>
         <div class="boasVindas">
             <div class="bv">
@@ -46,23 +46,7 @@ require_once('database/database.php');
                                 class="txt_cons">
                         </td>
                     </tr>
-                    </tr>
-                    <tr>
-                        <td class="td_txt">
-                            Número do Lote:
-                        </td>
-                        <td class="td_input">
-                            <input type="text" placeholder="Nº do lote" name="lote" class="txt_lote">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="td_txt">
-                            Data de vencimento:
-                        </td>
-                        <td class="td_input">
-                            <input type="date" name="dt_venc" class="form_dt">
-                        </td>
-                    </tr>
+
                     <tr>
                         <td></td>
                     </tr>

@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once('database/database.php');
+require('database/database.php');
 ?>
 
 <!DOCTYPE html>
@@ -43,7 +43,19 @@ require_once('database/database.php');
                         </td>
                         <td class="td_input">
                             <select type="text" placeholder="Insira um nome de medicamento" name="remedio"
-                                class="txt_cons"></select>
+                                class="txt_cons">
+                            <?php
+                                $sql = 'select id, nome from medicamentos';
+                                foreach( $con->query($sql) as $row) {
+                            ?>
+                            <option value="<?php echo $row['id']; ?>"><?php echo $row['nome']; ?> </option>
+
+                            <?php
+
+                                }
+                            ?>
+                            
+                            </select>
                         </td>
                     </tr>
                     <tr>

@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once('database/database.php');
+require('database/database.php');
     $host = $_SERVER['HTTP_HOST'];
     $protocol=$_SERVER['PROTOCOL'] = isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) ? 'https' : 'http';
     $URL_BASE =  $protocol.'://'.$host
@@ -57,6 +57,9 @@ require_once('database/database.php');
             <td>
                 Quantidade
             </td>
+            <td>
+                Ação
+            </td>
             </tr>
             </thead>
             <tbody class="corpo">
@@ -67,29 +70,31 @@ require_once('database/database.php');
                     if (isset($desc) && $desc != "") {
                         $sql .= " WHERE nome = '" . $desc . "'";
                     }
-                    $res = $mysqli->query($sql);
-                    if ($res->num_rows >= 1) {
-                        while ($obj = $res->fetch_object()) {
+                    $res = $con->query($sql);
+
+
+                        foreach ($res as $obj) {
                             ?>
                         <tr class="tb_items">
                             <td>
-                                <?php echo $obj->nome; ?>
+                                <?php echo $obj['nome']; ?>
                             </td>
                             <td>
-                                <?php echo $obj->dt_vencimento; ?>
+                                <?php echo $obj['dt_vencimento']; ?>
                             </td>
                             <td>
-                                <?php echo $obj->lote; ?>
+                                <?php echo $obj['lote']; ?>
                             </td>
                             <td>
-                                <?php echo $obj->qtd; ?>
+                                <?php echo $obj['qtd']; ?>
+                            </td>
+                            <td>
+                                <a href="/pages/controle/exc_med.php?id_med=<?php echo $obj['id'];?>">excluir</a>
                             </td>
                         </tr>
                         <?php
                         }
-                    } else {
-                        echo "<tr><td colspan='5'>Sem registro</td></tr>";
-                    }
+
 
                     ?>
             </tbody>
