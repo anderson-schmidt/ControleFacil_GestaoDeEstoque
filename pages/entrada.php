@@ -34,7 +34,7 @@ require('database/database.php');
         </div>
     </header>
     <div class="flex-container">
-        <form action="/pages/controle/controle.php" method="POST">
+        <form action="/pages/controle/cad_ent.php" method="POST">
             <div id="box">
                 <table>
                     <tr>
@@ -71,7 +71,7 @@ require('database/database.php');
                             Número do Lote:
                         </td>
                         <td class="td_input">
-                            <select type="text" placeholder="Nº do lote" name="lote" class="txt_lote"></select>
+                            <input type="text" placeholder="Nº do lote" name="lote" class="txt_lote"></input>
                         </td>
                     </tr>
                     <tr>
@@ -92,17 +92,15 @@ require('database/database.php');
                     </tr>
                     <tr>
                         <td></td>
-                    </tr>
-                    <tr>
                         <td></td>
-                    </tr>
-                    <tr>
-                        <td>
-                        </td>
                         <td></td>
                         <td>
                             <input type='submit' value="Cadastrar" class="btn_confirm">
                         </td>
+                    </tr>
+                    <tr>
+                    </tr>
+                    <tr>
                     </tr>
                 </table>
             </div>
