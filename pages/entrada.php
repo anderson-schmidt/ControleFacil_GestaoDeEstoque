@@ -1,6 +1,18 @@
 <?php
 session_start();
 require('database/database.php');
+
+$id_med_ctrl = $_GET['id_alt'];
+
+$sql = "SELECT * FROM  medicamento_controle m
+        WHERE id = :id";
+$stm = $con->prepare($sql);
+$stm->bindParam(":id", $id_med_ctrl);
+$stm->execute();
+$ctrl = $stm->fetch();
+
+
+
 ?>
 
 <!DOCTYPE html>
@@ -42,13 +54,14 @@ require('database/database.php');
                             Nome do Medicamento:
                         </td>
                         <td class="td_input">
+                            <input type="hidden" name="id_controle" value="<?php echo $ctrl ?  $ctrl['id'] : ''; ?>"></input>
                             <select type="text" placeholder="Insira um nome de medicamento" name="remedio"
                                 class="txt_cons">
                             <?php
                                 $sql = 'select id, nome from medicamentos';
                                 foreach( $con->query($sql) as $row) {
                             ?>
-                            <option value="<?php echo $row['id']; ?>"><?php echo $row['nome']; ?> </option>
+                            <option <?php echo $row['id'] == $ctrl['id_med'] ? 'selected' : '' ?> value="<?php echo $row['id']; ?>"><?php echo $row['nome']; ?> </option>
 
                             <?php
 
@@ -63,7 +76,7 @@ require('database/database.php');
                             Data de Entrada:
                         </td>
                         <td class="td_input">
-                            <input type="date" name="dt_entrada" class="form_dt">
+                            <input type="date" name="dt_entrada" class="form_dt" value="<?php echo date("Y-m-d"); ?>">
                         </td>
                     </tr>
                     <tr>
@@ -71,7 +84,7 @@ require('database/database.php');
                             Número do Lote:
                         </td>
                         <td class="td_input">
-                            <input type="text" placeholder="Nº do lote" name="lote" class="txt_lote"></input>
+                            <input type="text" placeholder="Nº do lote" name="lote" class="txt_lote" value="<?php echo $ctrl ? $ctrl['lote'] : '' ?>"></input>
                         </td>
                     </tr>
                     <tr>
@@ -79,7 +92,7 @@ require('database/database.php');
                             Data de vencimento:
                         </td>
                         <td class="td_input">
-                            <input type="date" name="dt_venc" class="form_dt">
+                            <input type="date" name="dt_venc" class="form_dt" value="<?php echo $ctrl ? $ctrl['dt_vencimento'] : '' ?>">
                         </td>
                     </tr>
                     <tr>
@@ -87,7 +100,7 @@ require('database/database.php');
                             Quantidade:
                         </td>
                         <td class="td_input">
-                            <input type="text" placeholder="Quantia" name="qtd" class="txt_quantia">
+                            <input type="text" placeholder="Quantia" name="qtd" class="txt_quantia" value="<?php echo $ctrl ? $ctrl['qtd'] : '' ?>">
                         </td>
                     </tr>
                     <tr>

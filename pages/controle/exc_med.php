@@ -11,15 +11,15 @@ $mysqli = null;
 $var_id = $_GET['id_med'];
 
 try {
-    $sql = "select id from medicamentos where id = ".$var_id;
-    $res = $con->query($sql);
+    $sql = "select id from medicamento_controle where id = ".$var_id;
+    $res = $con->query($sql)->fetchAll();
   /*  $res->bind_param('i',$var_id);
     $res->execute();
     $res->bind_result($id);*/
    // print_r($res);
    foreach ($res as $obj) {
 
-        $sql = "delete from medicamentos where id = :id";
+        $sql = "delete from medicamento_controle where id = :id";
         $res = $con->prepare($sql);
         $res->bindParam(':id',$obj['id']);
         $res->execute();
@@ -28,6 +28,8 @@ try {
 
 } catch (Exception $th) {
     $_SESSION['erro_msg'] = $th->getMessage();
+    echo $th->getMessage();
+    die;
 } finally {
     include('../consulta.php');
 }

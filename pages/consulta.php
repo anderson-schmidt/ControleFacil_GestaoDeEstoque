@@ -24,7 +24,7 @@ require('database/database.php');
     <div class="cons">
         <table class="tabela_cons">
             <tr>
-                <form action="consulta.php" method='POST'>
+                <form action="/pages/consulta.php" method='POST'>
                     <td>
                         Nome do medicamento:
                         <input type="text" placeholder="insira um nome de medicamento" name="remedio" class="txt_cons">
@@ -65,10 +65,11 @@ require('database/database.php');
             <tbody class="corpo">
                 <tr>
                     <?php
-                    $sql = "SELECT * FROM  medicamentos";
+                    $sql = "SELECT m.id, m.nome, mc.dt_vencimento, mc.lote, mc.qtd, mc.id as id_ctrl  FROM  medicamentos m
+                         join medicamento_controle mc on mc.id_med = m.id";
                     $desc = $_POST['remedio'];
                     if (isset($desc) && $desc != "") {
-                        $sql .= " WHERE nome = '" . $desc . "'";
+                        $sql .= " WHERE m.nome = '" . $desc . "'";
                     }
                     $res = $con->query($sql);
 
@@ -89,7 +90,8 @@ require('database/database.php');
                                 <?php echo $obj['qtd']; ?>
                             </td>
                             <td>
-                                <a href="/pages/controle/exc_med.php?id_med=<?php echo $obj['id'];?>">excluir</a>
+                            <a href="/pages/entrada.php?id_alt=<?php echo $obj['id_ctrl'];?>">alterar</a><br/>
+                                <a href="/pages/controle/exc_med.php?id_med=<?php echo $obj['id_ctrl'];?>">excluir</a>
                             </td>
                         </tr>
                         <?php

@@ -27,7 +27,7 @@
         include('../entrada.php'); 
     } finally {
         $mysqli->close();
-        include('../consulta.php'); 
+        include('../telaPrincipal.php'); 
     }
             
     
