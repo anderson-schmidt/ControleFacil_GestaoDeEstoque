@@ -27,6 +27,9 @@ $ctrl = $stm->fetch();
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins&display=swap" rel="stylesheet">
     <title>Controle Fácil – Gestão de Estoque</title>
+    <script>
+        document.getElementById
+    </script>
 </head>
 
 <body>
