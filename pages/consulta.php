@@ -1,10 +1,10 @@
 <?php
 session_start();
 require('database/database.php');
-    $host = $_SERVER['HTTP_HOST'];
-    $protocol=$_SERVER['PROTOCOL'] = isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) ? 'https' : 'http';
-    $URL_BASE =  $protocol.'://'.$host
-?>
+$host = $_SERVER['HTTP_HOST'];
+$protocol = $_SERVER['PROTOCOL'] = isset($_SERVER['HTTPS']) && !empty($_SERVER['HTTPS']) ? 'https' : 'http';
+$URL_BASE = $protocol . '://' . $host
+    ?>
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -30,48 +30,45 @@ require('database/database.php');
                         <input type="text" placeholder="insira um nome de medicamento" name="remedio" class="txt_cons">
                     </td>
                     <td>
-                        Lote:
-                        <input type="text" placeholder="Insira o lote" name="lote" class="txt_lote">
-                    </td>
-                    <td>
-                        <!--<input type="submit" value="Enviar" name="data" class="btn_enviar">-->
+                    
                         <button type="submit" class="btn_sbmt"><img src="/assets/lupa.png" class="lupa"></button>
                     </td>
                 </form>
             </tr>
         </table>
     </div>
-    <div class="resultado">
-        <table class="tbl_cons">
-            <thead class="cabeca">
-            <tr>
-            <td class="td_nome">
-                Nome
-            </td>
-            <td>
-                Data de Validade
-            </td>
-            <td class="td_lote">
-                Lote
-            </td>
-            <td>
-                Quantidade
-            </td>
-            <td>
-                Ação
-            </td>
-            </tr>
-            </thead>
-            <tbody class="corpo">
-                <tr>
-                    <?php
-                    $sql = "SELECT m.id, m.nome, mc.dt_vencimento, mc.lote, mc.qtd, mc.id as id_ctrl  FROM  medicamentos m
+    <form action="/pages/controle/cad_ent.php" method="POST">
+        <div class="resultado">
+            <table class="tbl_cons">
+                <thead class="cabeca">
+                    <tr>
+                        <td class="td_nome">
+                            Nome
+                        </td>
+                        <td>
+                            Data de Validade
+                        </td>
+                        <td class="td_lote">
+                            Lote
+                        </td>
+                        <td>
+                            Quantidade
+                        </td>
+                        <td>
+                            Ação
+                        </td>
+                    </tr>
+                </thead>
+                <tbody class="corpo">
+                    <tr>
+                        <?php
+                        $sql = "SELECT m.id, m.nome, mc.dt_vencimento, mc.lote, mc.qtd, mc.id as id_ctrl  FROM  medicamentos m
                          join medicamento_controle mc on mc.id_med = m.id";
-                    $desc = $_POST['remedio'];
-                    if (isset($desc) && $desc != "") {
-                        $sql .= " WHERE m.nome = '" . $desc . "'";
-                    }
-                    $res = $con->query($sql);
+                        $desc = $_POST['remedio'];
+                        if (isset($desc) && $desc != "") {
+                            $sql .= " WHERE m.nome = '" . $desc . "'";
+                        }
+                        $res = $con->query($sql);
 
 
                         foreach ($res as $obj) {
@@ -90,18 +87,19 @@ require('database/database.php');
                                 <?php echo $obj['qtd']; ?>
                             </td>
                             <td>
-                            <a href="/pages/entrada.php?id_alt=<?php echo $obj['id_ctrl'];?>">alterar</a><br/>
-                                <a href="/pages/controle/exc_med.php?id_med=<?php echo $obj['id_ctrl'];?>">excluir</a>
+                                <a href="/pages/entrada.php?id_alt=<?php echo $obj['id_ctrl']; ?>">alterar</a><br />
+                                <a href="/pages/controle/exc_med.php?id_med=<?php echo $obj['id_ctrl']; ?>">excluir</a>
                             </td>
                         </tr>
                         <?php
                         }
 
 
-                    ?>
-            </tbody>
-        </table>
-    </div>
+                        ?>
+                </tbody>
+            </table>
+        </div>
+    </form>
     <footer>
         <div class="rodape">
             <a href="/pages/telaPrincipal.php"><button class="back_btn">Voltar</button></a>

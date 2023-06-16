@@ -114,7 +114,7 @@ box-shadow:2px 4px 8px black;
 }
 
 .cons{
-	margin-left: 400px;
+	margin-left: 350px;
 	padding-left: 25px;
 	padding-top: 50px;
 }
@@ -159,4 +159,51 @@ box-shadow:2px 4px 8px black;
 	height:25px;
 	align-content: center;
 	margin-right: 170px;
+}
+
+.tbl_cons{
+	padding: 25px;
+	
+}
+
+.tbl_cons td{
+	text-align: center;
+	padding: 5px;
+	padding-left: 10px;
+	padding-right: 10px;
+	
+}
+
+.td_nome{
+	width: 500px;
+	text-align: center;
+}
+
+.td_lote{
+	width: 100px;
+	text-align: center;
+}
+
+.btn_sbmt{
+border: none;
+	background-color: transparent;
+	
+}
+
+.btn_sbmt:hover{
+	cursor: pointer;
+}
+
+.corpo tr:nth-child(odd){
+	text-align: center;
+	background-color: #040076;
+}
+
+.corpo tr:nth-child(even){
+	text-align: center;
+	background-color: #2096fe;
+}
+
+.cabeca{
+	background-color: #011629;
 }
