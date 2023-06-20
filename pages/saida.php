@@ -87,13 +87,7 @@ $ctrl = $stm->fetch();
                             <input type="text" placeholder="Nº do lote" name="lote" class="txt_lote" value="<?php echo $ctrl ? $ctrl['lote'] : '' ?>"></input>
                         </td>
                     </tr>
-                    <tr>
-                        <td class="td_txt">
-                            Data de vencimento:
-                        </td>
-                        <td class="td_input">
-                            <input type="date" name="dt_venc" class="form_dt" value="<?php echo $ctrl ? $ctrl['dt_vencimento'] : '' ?>">
-                        </td>
+                    <tr>    
                     </tr>
                     <tr>
                         <td class="td_txt">

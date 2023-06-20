@@ -1,8 +1,3 @@
-<?php
-session_start();
-require_once('database/database.php');
-?>
-
 <!DOCTYPE html>
 <html lang="pt-br">
 
@@ -27,8 +22,67 @@ require_once('database/database.php');
             <a href="/index.php"><button class="btn_sair" type="button">Sair</button></a>
         </div>
     </header>
-    <div class="flex-container">
+    
+    <?php
+require_once('database/database.php');
 
+// Consulta para recuperar os dados do medicamento
+$sql2 = "select m.nome, mc.lote, mc.qtd, mc.dt_vencimento
+        from medicamentos m 
+        join medicamento_controle mc on mc.id_med = m.id
+        where datediff(now(), mc.dt_vencimento) < 30;";
+
+$sql = "select id_med_ctrl, avg(qtd*-1) as saidamedia
+        from bordero
+        where datediff(now(), dt_evento) < 30
+        and qtd < 0
+        group by 1";
+//SELECT qtd, dt_vencimento FROM medicamento_controle";
+$result = $con->query($sql)->fetchAll();
+
+// Verifica se a consulta retornou resultados
+if ($result && count($result) > 0) {
+    print_r($result);
+    $notificacao = "Remedio";
+        /*$row = $result->fetchAll
+    ();
+    
+    // Obtém os valores do banco de dados
+    $quantidadeEstoque = $row["qtd"];
+    $validade = new DateTime($row["dt_vencimento"]);
+
+    // Chama a função para calcular a venda diária
+    $vendaDiaria = calcularVendaDiaria($quantidadeEstoque, $validade);
+    
+    // Calcula a quantidade total a ser vendida
+    $diasRestantes = $validade->diff(new DateTime())->days;
+    $quantidadeTotal = $vendaDiaria * $diasRestantes;
+
+    // Exibe a notificação
+    $notificacao = "Você precisa vender " . number_format($quantidadeTotal, 2) . " remédios em $diasRestantes dias.";*/
+} else {
+    $notificacao = "Nenhum medicamento encontrado no banco de dados.";
+}
+
+
+function calcularVendaDiaria($quantidadeAtual, $validade) {
+    // Obter a data atual
+    $dataAtual = new DateTime();
+    $dataAtual->setTime(0, 0, 0);
+
+    // Calcular a quantidade de dias restantes até a validade
+    $diasRestantes = $validade->diff($dataAtual)->days;
+
+    // Calcular a quantidade de remédios a serem vendidos por dia
+    $vendaDiaria = $quantidadeAtual / $diasRestantes;
+
+    return $vendaDiaria;
+}
+?>
+
+    <div class="notificacao"><?php echo $notificacao; ?></div>
+    
+    <div class="flex-container">
         <div id="box">
             <table>
                 <tr>
@@ -43,14 +97,12 @@ require_once('database/database.php');
                     </td>
                 </tr>
                 <tr>
-
                     <td>
                         <a href="/pages/consulta.php"><button class="botao" type="button">Consulta Estoque</button></a>
                     </td>
                     <td></td>
                     <td>
-                        <a href="/pages/consulta_precos.php"><button class="botao" type="button">Consulta
-                                Preços</button></a>
+                        <a href="/pages/consulta_precos.php"><button class="botao" type="button">Consulta Preços</button></a>
                     </td>
                 </tr>
             </table>
