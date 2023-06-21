@@ -42,7 +42,7 @@ $ctrl = $stm->fetch();
     $dt_venc = $_POST['dt_venc'];
     $dt_evento = $_POST['dt_entrada'];
     $qtd = $_POST['qtd'];
-    $qtdRes = $qtd;
+    $qtdRes = 0;
     $id_ctrl  = 0;
 
     try {
@@ -54,11 +54,11 @@ $ctrl = $stm->fetch();
         $r = $stm->get_result()->fetch_assoc();
         if ($r) {
             if ($_POST['id_controle'] == "") {
-                $qtdRes -= $r['qtd'];
+                $qtdRes = max(0, $r['qtd'] - $qtd); // Subtrai a quantidade informada do estoque
             }
             $id_ctrl  = $r['id'];
-            // Subtrair a quantidade existente do estoque
-            $qtdRes -= $r['qtd'];
+        } else {
+            $qtdRes = $qtd; // Define o valor original fornecido pelo usuário
         }
     } catch (\Throwable $th) {
         $_SESSION['erro_msg'] = $th->getMessage();
@@ -72,7 +72,7 @@ $ctrl = $stm->fetch();
         $mysqli = new mysqli("banco", "user", "user", "controlefacil");
         $mysqli->begin_transaction();
         
-        if ($qtd != $qtdRes) {
+        if ($qtdRes != $r['qtd']) {
             $stm = $mysqli->prepare("update medicamento_controle set dt_vencimento = ?,
                                             lote = ?,
                                             qtd = ?
@@ -98,7 +98,7 @@ $ctrl = $stm->fetch();
         include('../saida.php'); 
     } finally {
         $mysqli->close();        
-    }           
+    }
 ?>
     <header>
         <div class="boasVindas">
