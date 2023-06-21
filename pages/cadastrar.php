@@ -1,6 +1,6 @@
 <?php
-session_start();
-require_once('database/database.php');
+session_start(); // Inicia a sessão para acessar variáveis de sessão
+require_once('database/database.php'); // Inclui o arquivo de configuração e conexão com o banco de dados
 ?>
 
 <!DOCTYPE html>
@@ -19,22 +19,24 @@ require_once('database/database.php');
 
 <body>
     <?php
+    // Exibe uma mensagem de erro, se houver, utilizando a variável de sessão 'erro_msg'
     if ($_SESSION['erro_msg'] != '') {
         echo '<div class="alert alert-danger" role="alert">';
         echo $_SESSION['erro_msg'];
         echo '</div>';
-    } ?>
+    }
+    ?>
     <header>
         <div class="boasVindas">
             <div class="bv">
                 Bem vindo
-                <?php echo $_SESSION['user'] ?>
+                <?php echo $_SESSION['user'] ?> <!-- Exibe o nome do usuário obtido da variável de sessão 'user' -->
             </div>
-            <a href="/index.php"><button class="btn_sair" type="button">Sair</button></a>
+            <a href="/index.php"><button class="btn_sair" type="button">Sair</button></a> <!-- Botão para sair da página -->
         </div>
     </header>
     <div class="flex-container">
-        <form action="/pages/controle/controle.php" method="POST">
+        <form action="/pages/controle/controle.php" method="POST"> <!-- Formulário para cadastrar um medicamento, que envia os dados para 'controle.php' -->
             <div id="box">
                 <table>
                     <tr>
@@ -43,7 +45,7 @@ require_once('database/database.php');
                         </td>
                         <td class="td_input">
                             <input type="text" placeholder="Insira um nome de medicamento" name="remedio"
-                                class="txt_cons">
+                                class="txt_cons"> <!-- Campo de entrada para o nome do medicamento -->
                         </td>
                     </tr>
 
@@ -58,7 +60,7 @@ require_once('database/database.php');
                         </td>
                         <td></td>
                         <td>
-                            <input type='submit' value="Cadastrar" class="btn_confirm">
+                            <input type='submit' value="Cadastrar" class="btn_confirm"> <!-- Botão para enviar o formulário -->
                         </td>
                     </tr>
                 </table>
@@ -67,7 +69,7 @@ require_once('database/database.php');
     </div>
     <footer>
         <div class="rodape">
-            <a href="/pages/telaPrincipal.php"><button class="back_btn">Voltar</button></a>
+            <a href="/pages/telaPrincipal.php"><button class="back_btn">Voltar</button></a> <!-- Botão para voltar à página principal -->
         </div>
     </footer>
 </body>
