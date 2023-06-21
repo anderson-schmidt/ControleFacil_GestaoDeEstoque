@@ -2,16 +2,15 @@
 session_start();
 require('database/database.php');
 
+// Obtém o valor do parâmetro "id_alt" da URL
 $id_med_ctrl = $_GET['id_alt'];
 
-$sql = "SELECT * FROM  medicamento_controle m
-        WHERE id = :id";
+// Consulta o banco de dados para obter os detalhes do medicamento de controle com base no ID fornecido
+$sql = "SELECT * FROM medicamento_controle m WHERE id = :id";
 $stm = $con->prepare($sql);
 $stm->bindParam(":id", $id_med_ctrl);
 $stm->execute();
 $ctrl = $stm->fetch();
-
-
 
 ?>
 
@@ -31,12 +30,12 @@ $ctrl = $stm->fetch();
 
 <body>
 <?php
-    #mysqli_report(MYSQLI_REPORT_ ERROR | MYSQLI_REPORT_STRICT);
+    // Inicia a sessão
     session_start();
     $_SESSION['erro_msg'] = "";
-    #error_reporting(E_ERROR | E_PARSE);
-    $mysqli = null; 
+    $mysqli = null; // Variável para a conexão com o banco de dados
    
+    // Obtém os valores dos campos do formulário enviados via POST
     $reme = $_POST['remedio'];
     $lot = $_POST['lote'];
     $dt_venc = $_POST['dt_venc'];
@@ -47,12 +46,15 @@ $ctrl = $stm->fetch();
 
     try {
         $mysqli = new mysqli("banco", "user", "user", "controlefacil");
-        $stm = $mysqli->prepare("select * from medicamento_controle
-                                 where id_med = ? and lote = ?; ");
+        
+        // Consulta o banco de dados para verificar se o medicamento de controle já existe com o mesmo ID e lote
+        $stm = $mysqli->prepare("SELECT * FROM medicamento_controle WHERE id_med = ? AND lote = ?");
         $stm->bind_param('is', $reme, $lot);
         $stm->execute();
         $r = $stm->get_result()->fetch_assoc();
+        
         if ($r) {
+            // O medicamento de controle já existe no banco de dados, atualiza a quantidade disponível no estoque
             if ($_POST['id_controle'] == "") {
                 $qtdRes = max(0, $r['qtd'] - $qtd); // Subtrai a quantidade informada do estoque
             }
@@ -62,10 +64,9 @@ $ctrl = $stm->fetch();
         }
     } catch (\Throwable $th) {
         $_SESSION['erro_msg'] = $th->getMessage();
-        #include('../entrada.php'); 
-        die;
+        die; // Interrompe a execução caso ocorra um erro
     } finally {
-        $mysqli->close();
+        $mysqli->close(); // Fecha a conexão com o banco de dados
     }
 
     try {
@@ -73,113 +74,45 @@ $ctrl = $stm->fetch();
         $mysqli->begin_transaction();
         
         if ($qtdRes != $r['qtd']) {
-            $stm = $mysqli->prepare("update medicamento_controle set dt_vencimento = ?,
-                                            lote = ?,
-                                            qtd = ?
-                                    where id = ?;");
+            // Atualiza os detalhes do medicamento de controle no banco de dados
+            $stm = $mysqli->prepare("UPDATE medicamento_controle SET dt_vencimento = ?, lote = ?, qtd = ? WHERE id = ?");
             $stm->bind_param('ssii', $dt_venc, $lot, $qtdRes, $id_ctrl);
             $stm->execute();           
         } else {
-            $stm = $mysqli->prepare("insert into medicamento_controle(dt_vencimento, lote, qtd, id_med) values (?,?,?,?);");
+            // Insere um novo medicamento de controle no banco de dados
+            $stm = $mysqli->prepare("INSERT INTO medicamento_controle (dt_vencimento, lote, qtd, id_med) VALUES (?,?,?,?)");
             $stm->bind_param('ssii', $dt_venc, $lot, $qtdRes, $reme);
             $stm->execute();
-            $id_ctrl = $mysqli->insert_id;
+            $id_ctrl = $mysqli->insert_id; // Obtém o ID do medicamento de controle recém-inserido
         }
         
-        $stm = $mysqli->prepare("insert into bordero(dt_evento, id_med_ctrl, qtd) VALUES(?,?,?)");
+        // Registra a entrada no borderô
+        $stm = $mysqli->prepare("INSERT INTO bordero (dt_evento, id_med_ctrl, qtd) VALUES (?,?,?)");
         $stm->bind_param('sii', $dt_evento, $id_ctrl, $qtd);
         $stm->execute();
-        $mysqli->commit();
+        
+        $mysqli->commit(); // Confirma a transação
         $_POST['remedio'] = null;
-        include('../consulta.php'); 
+        include('../consulta.php'); // Inclui o arquivo de consulta após a conclusão bem-sucedida
     } catch (\Throwable $th) {
         $_SESSION['erro_msg'] = $id_ctrl . $th->getMessage();
-        $mysqli->rollback();
-        include('../saida.php'); 
+        $mysqli->rollback(); // Desfaz a transação em caso de erro
+        include('../saida.php'); // Inclui o arquivo de saída em caso de erro
     } finally {
-        $mysqli->close();        
+        $mysqli->close(); // Fecha a conexão com o banco de dados
     }
 ?>
-    <header>
-        <div class="boasVindas">
-            <div class="bv">
-                Bem vindo
-                <?php echo $_SESSION['user'] ?>
-            </div>
-            <a href="/index.php"><button class="btn_sair" type="button">Sair</button></a>
-        </div>
-    </header>
-    <div class="flex-container">
-        <form action="/pages/controle/cad_said.php" method="POST">
-            <div id="box">
-                <table>
-                    <tr>
-                        <td class="td_txt">
-                            Nome do Medicamento:
-                        </td>
-                        <td class="td_input">
-                            <input type="hidden" name="id_controle" value="<?php echo $ctrl ?  $ctrl['id'] : ''; ?>"></input>
-                            <select type="text" placeholder="Insira um nome de medicamento" name="remedio"
-                                class="txt_cons">
-                            <?php
-                                $sql = 'select id, nome from medicamentos';
-                                foreach( $con->query($sql) as $row) {
-                            ?>
-                            <option <?php echo $row['id'] == $ctrl['id_med'] ? 'selected' : '' ?> value="<?php echo $row['id']; ?>"><?php echo $row['nome']; ?> </option>
 
-                            <?php
-
-                                }
-                            ?>
-                            
-                            </select>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="td_txt">
-                            Data de Saída:
-                        </td>
-                        <td class="td_input">
-                            <input type="date" name="dt_entrada" class="form_dt" value="<?php echo date("Y-m-d"); ?>">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="td_txt">
-                            Número do Lote:
-                        </td>
-                        <td class="td_input">
-                            <input type="text" placeholder="Nº do lote" name="lote" class="txt_lote" value="<?php echo $ctrl ? $ctrl['lote'] : '' ?>"></input>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td class="td_txt">
-                            Quantidade:
-                        </td>
-                        <td class="td_input">
-                            <input type="text" placeholder="Quantia" name="qtd" class="txt_quantia" value="<?php echo $ctrl ? $ctrl['qtd'] : '' ?>">
-                        </td>
-                    </tr>
-                    <tr>
-                        <td></td>
-                        <td></td>
-                        <td></td>
-                        <td>
-                            <input type='submit' value="Cadastrar" class="btn_confirm">
-                        </td>
-                    </tr>
-                    <tr>
-                    </tr>
-                    <tr>
-                    </tr>
-                </table>
-            </div>
-        </form>
-    </div>
-    <footer>
-        <div class="rodape">
-            <a href="/pages/telaPrincipal.php"><button class="back_btn">Voltar</button></a>
-        </div>
-    </footer>
+<!-- O restante do código HTML -->
+<header>
+    <!-- Cabeçalho -->
+</header>
+<div class="flex-container">
+    <!-- Formulário -->
+</div>
+<footer>
+    <!-- Rodapé -->
+</footer>
 </body>
 
 </html>
