@@ -41,14 +41,14 @@
     $result1 = $con->query($sql1)->fetch();
     $result2 = $con->query($sql2)->fetchALL();
 
-    //calculo para q quantdade de medicamentos perdidos
+    // Cálculo para a quantidade de medicamentos perdidos
     $perda = $result1[2] - $result2['saidamedia'];
 
     // Verifica se a consulta retornou resultados
     if ($result1 && count($result1) > 0) {
         print_r($result1);
         echo ($result2);
-      /*  // Obtém os valores do banco de dados
+        /*  // Obtém os valores do banco de dados
         $quantidadeEstoque = $row["qtd"];
         $validade = new DateTime($row["dt_vencimento"]);
 
