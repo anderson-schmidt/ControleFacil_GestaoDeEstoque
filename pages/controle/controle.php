@@ -1,35 +1,47 @@
 <?php
-    #mysqli_report(MYSQLI_REPORT_ ERROR | MYSQLI_REPORT_STRICT);
-    session_start();
-    $_SESSION['erro_msg'] = "";
-    #error_reporting(E_ERROR | E_PARSE);
-    $mysqli = null; 
-   
+session_start();
 
-    $var_data = $_POST['dt_entrada'];
-    $reme = $_POST['remedio'];
-    $lot = $_POST['lote'];
-    $dt_venc = $_POST['dt_venc'];
-    $qtd = $_POST['qtd'];
+// Inicia a sessão e define uma variável para mensagens de erro
+$_SESSION['erro_msg'] = "";
 
-    
+// Define a variável para conexão com o banco de dados como nula
+$mysqli = null;
 
-    try {
-        $mysqli = new mysqli("banco", "user", "user", "controlefacil");
-        $mysqli->begin_transaction();
-        $stm = $mysqli->prepare("insert into medicamentos(nome) VALUES(?)");
-        $stm->bind_param('s',$reme);
-        $stm->execute();
-        $mysqli->commit();
-    } catch (\Throwable $th) {
-        $_SESSION['erro_msg'] = $th->getMessage();
-        $mysqli->rollback();
-        include('../entrada.php'); 
-    } finally {
-        $mysqli->close();
-        include('../telaPrincipal.php'); 
-    }
-            
+// Obtém os valores dos campos do formulário
+$var_data = $_POST['dt_entrada'];
+$reme = $_POST['remedio'];
+$lot = $_POST['lote'];
+$dt_venc = $_POST['dt_venc'];
+$qtd = $_POST['qtd'];
+
+try {
+    // Estabelece a conexão com o banco de dados
+    $mysqli = new mysqli("banco", "user", "user", "controlefacil");
     
+    // Inicia uma transação no banco de dados
+    $mysqli->begin_transaction();
     
+    // Insere um novo medicamento na tabela 'medicamentos'
+    $stm = $mysqli->prepare("insert into medicamentos(nome) VALUES(?)");
+    $stm->bind_param('s', $reme);
+    $stm->execute();
+    
+    // Confirma a transação no banco de dados
+    $mysqli->commit();
+} catch (\Throwable $th) {
+    // Em caso de erro, captura a exceção e define a mensagem de erro na sessão
+    $_SESSION['erro_msg'] = $th->getMessage();
+    
+    // Desfaz a transação no banco de dados
+    $mysqli->rollback();
+    
+    // Inclui o arquivo '../entrada.php'
+    include('../entrada.php');
+} finally {
+    // Fecha a conexão com o banco de dados
+    $mysqli->close();
+    
+    // Inclui o arquivo '../telaPrincipal.php'
+    include('../telaPrincipal.php');
+}
 ?>
