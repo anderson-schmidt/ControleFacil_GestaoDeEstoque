@@ -1,5 +1,6 @@
 version: "3.9"
 services:
+  # Serviço para a aplicação web
   webapp:
     build:
       context: .
@@ -8,18 +9,27 @@ services:
       - .:/var/www/html/
     ports:
       - 8080:80
-  
+      # Mapeia a porta 8080 do host para a porta 80 do contêiner
+
+  # Serviço para o banco de dados MariaDB
   banco:
     image: mariadb
     environment:
       - MARIADB_ROOT_PASSWORD=aula
+      # Define a senha do usuário root do MariaDB
       - MARIADB_DATABASE=controlefacil
+      # Define o nome do banco de dados
       - MARIADB_USER=user
+      # Define o nome de usuário
       - MARIADB_PASSWORD=user
+      # Define a senha do usuário
     ports:
       - 3306:3306
+      # Mapeia a porta 3306 do host para a porta 3306 do contêiner
 
+  # Serviço para o Adminer (gerenciador de bancos de dados)
   adminer:
     image: adminer
     ports:
       - 9999:8080
+      # Mapeia a porta 9999 do host para a porta 8080 do contêiner
