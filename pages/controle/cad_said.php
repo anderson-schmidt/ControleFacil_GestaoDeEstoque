@@ -8,7 +8,6 @@
     // Recupera os valores dos campos de formulário
     $reme = $_POST['remedio'];
     $lot = $_POST['lote'];
-    $dt_venc = $_POST['dt_venc'];
     $dt_evento = $_POST['dt_entrada'];
     $qtd = $_POST['qtd'];
     $qtdRes = 0;
@@ -53,16 +52,15 @@
         
         if ($qtdRes != $r['qtd']) {
             // Atualiza o registro na tabela 'medicamento_controle' se a quantidade reservada for diferente da quantidade existente
-            $stm = $mysqli->prepare("update medicamento_controle set dt_vencimento = ?,
-                                            lote = ?,
+            $stm = $mysqli->prepare("update medicamento_controle set lote = ?,
                                             qtd = ?
                                     where id = ?;");
-            $stm->bind_param('ssii', $dt_venc, $lot, $qtdRes, $id_ctrl);
+            $stm->bind_param('sii', $lot, $qtdRes, $id_ctrl);
             $stm->execute();           
         } else {
             // Insere um novo registro na tabela 'medicamento_controle' se a quantidade reservada for igual à quantidade existente
-            $stm = $mysqli->prepare("insert into medicamento_controle(dt_vencimento, lote, qtd, id_med) values (?,?,?,?);");
-            $stm->bind_param('ssii', $dt_venc, $lot, $qtdRes, $reme);
+            $stm = $mysqli->prepare("insert into medicamento_controle(lote, qtd, id_med) values (?,?,?);");
+            $stm->bind_param('sii', $lot, $qtdRes, $reme);
             $stm->execute();
             // Obtém o ID do registro recém-inserido
             $id_ctrl = $mysqli->insert_id;
