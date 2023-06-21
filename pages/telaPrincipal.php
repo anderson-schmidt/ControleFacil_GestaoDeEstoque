@@ -27,24 +27,28 @@
 require_once('database/database.php');
 
 // Consulta para recuperar os dados do medicamento
-$sql2 = "select m.nome, mc.lote, mc.qtd, mc.dt_vencimento
+$sql1 = "select m.nome, mc.lote, mc.qtd, mc.dt_vencimento
         from medicamentos m 
         join medicamento_controle mc on mc.id_med = m.id
         where datediff(now(), mc.dt_vencimento) < 30;";
 
-$sql = "select id_med_ctrl, avg(qtd*-1) as saidamedia
+$sql2 = "select id_med_ctrl, avg(qtd*-1) as saidamedia
         from bordero
         where datediff(now(), dt_evento) < 30
         and qtd < 0
         group by 1";
 //SELECT qtd, dt_vencimento FROM medicamento_controle";
-$result = $con->query($sql)->fetchAll();
+$result1 = $con->query($sql1)->fetch();
+$result2 = $con->query($sql2)->fetch();
+
+//calculo para q quantdade de medicamentos perdidos
+$perda = $result1[2] - $result2['saidamedia'];
 
 // Verifica se a consulta retornou resultados
-if ($result && count($result) > 0) {
-    print_r($result);
-    $notificacao = "Remedio";
+if ($result1 && count($result1) > 0) {
+    print_r($result1);
         /*$row = $result->fetchAll
+
     ();
     
     // Obtém os valores do banco de dados
@@ -56,25 +60,29 @@ if ($result && count($result) > 0) {
     
     // Calcula a quantidade total a ser vendida
     $diasRestantes = $validade->diff(new DateTime())->days;
-    $quantidadeTotal = $vendaDiaria * $diasRestantes;
+    $quantidadeTotal = $vendaDiaria * $diasRestantes;*/
 
     // Exibe a notificação
-    $notificacao = "Você precisa vender " . number_format($quantidadeTotal, 2) . " remédios em $diasRestantes dias.";*/
-} else {
+    $notificacao = "Você precisa vender " .($result1[2]) . " medicamentos em $diasRestantes dias.";
+} 
+ elseif($sql1 > $sql2) {
+    $notificacao = "Você tera a perda de ".($perda)."medicamnetos!";
+}
+ else {
     $notificacao = "Nenhum medicamento encontrado no banco de dados.";
 }
 
 
-function calcularVendaDiaria($quantidadeAtual, $validade) {
+function calcularVendaDiaria($result1) {
     // Obter a data atual
     $dataAtual = new DateTime();
-    $dataAtual->setTime(0, 0, 0);
+    $dataAtual->setTime(20, 06, 2023);
 
     // Calcular a quantidade de dias restantes até a validade
-    $diasRestantes = $validade->diff($dataAtual)->days;
+    $diasRestantes = $result1[3] ->diff($dataAtual)->days;
 
     // Calcular a quantidade de remédios a serem vendidos por dia
-    $vendaDiaria = $quantidadeAtual / $diasRestantes;
+    $vendaDiaria = $result1[2] / $diasRestantes;
 
     return $vendaDiaria;
 }
