@@ -5,8 +5,7 @@ require('database/database.php');
 // Obtém o valor do parâmetro "id_alt" da URL
 $id_med_ctrl = $_GET['id_alt'];
 
-// Consulta o banco de dados para obter os detalhes do medicamento de controle com base no ID fornecido
-$sql = "SELECT * FROM medicamento_controle m WHERE id = :id";
+$sql = "SELECT * FROM medicamento_controle WHERE id = :id";
 $stm = $con->prepare($sql);
 $stm->bindParam(":id", $id_med_ctrl);
 $stm->execute();
@@ -29,90 +28,87 @@ $ctrl = $stm->fetch();
 </head>
 
 <body>
-<?php
-    // Inicia a sessão
-    session_start();
-    $_SESSION['erro_msg'] = "";
-    $mysqli = null; // Variável para a conexão com o banco de dados
-   
-    // Obtém os valores dos campos do formulário enviados via POST
-    $reme = $_POST['remedio'];
-    $lot = $_POST['lote'];
-    $dt_venc = $_POST['dt_venc'];
-    $dt_evento = $_POST['dt_entrada'];
-    $qtd = $_POST['qtd'];
-    $qtdRes = 0;
-    $id_ctrl  = 0;
+    <?php 
+    if (!empty($_SESSION['erro_msg'])) {
+        echo '<div class="alert alert-danger" role="alert">';
+        echo $_SESSION['erro_msg'];
+        echo '</div>';
+     } ?>
+    <header>
+        <div class="boasVindas">
+            <div class="bv">
+                Bem vindo
+                <?php echo $_SESSION['user'] ?>
+            </div>
+            <a href="/index.php"><button class="btn_sair" type="button">Sair</button></a>
+        </div>
+    </header>
+    <div class="flex-container">
+        <form action="/pages/controle/cad_said.php" method="POST">
+            <div id="box">
+                <table>
+                    <tr>
+                        <td class="td_txt">
+                            Nome do Medicamento:
+                        </td>
+                        <td class="td_input">
+                            <input type="hidden" name="id_controle" value="<?php echo $ctrl ?  $ctrl['id'] : ''; ?>"></input>
+                            <select name="remedio" class="txt_cons">
+                                <?php
+                                $sql = 'SELECT id, nome FROM medicamentos';
+                                $stmt = $con->prepare($sql);
+                                $stmt->execute();
+                                $medicamentos = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    try {
-        $mysqli = new mysqli("banco", "user", "user", "controlefacil");
-        
-        // Consulta o banco de dados para verificar se o medicamento de controle já existe com o mesmo ID e lote
-        $stm = $mysqli->prepare("SELECT * FROM medicamento_controle WHERE id_med = ? AND lote = ?");
-        $stm->bind_param('is', $reme, $lot);
-        $stm->execute();
-        $r = $stm->get_result()->fetch_assoc();
-        
-        if ($r) {
-            // O medicamento de controle já existe no banco de dados, atualiza a quantidade disponível no estoque
-            if ($_POST['id_controle'] == "") {
-                $qtdRes = max(0, $r['qtd'] - $qtd); // Subtrai a quantidade informada do estoque
-            }
-            $id_ctrl  = $r['id'];
-        } else {
-            $qtdRes = $qtd; // Define o valor original fornecido pelo usuário
-        }
-    } catch (\Throwable $th) {
-        $_SESSION['erro_msg'] = $th->getMessage();
-        die; // Interrompe a execução caso ocorra um erro
-    } finally {
-        $mysqli->close(); // Fecha a conexão com o banco de dados
-    }
-
-    try {
-        $mysqli = new mysqli("banco", "user", "user", "controlefacil");
-        $mysqli->begin_transaction();
-        
-        if ($qtdRes != $r['qtd']) {
-            // Atualiza os detalhes do medicamento de controle no banco de dados
-            $stm = $mysqli->prepare("UPDATE medicamento_controle SET dt_vencimento = ?, lote = ?, qtd = ? WHERE id = ?");
-            $stm->bind_param('ssii', $dt_venc, $lot, $qtdRes, $id_ctrl);
-            $stm->execute();           
-        } else {
-            // Insere um novo medicamento de controle no banco de dados
-            $stm = $mysqli->prepare("INSERT INTO medicamento_controle (dt_vencimento, lote, qtd, id_med) VALUES (?,?,?,?)");
-            $stm->bind_param('ssii', $dt_venc, $lot, $qtdRes, $reme);
-            $stm->execute();
-            $id_ctrl = $mysqli->insert_id; // Obtém o ID do medicamento de controle recém-inserido
-        }
-        
-        // Registra a entrada no borderô
-        $stm = $mysqli->prepare("INSERT INTO bordero (dt_evento, id_med_ctrl, qtd) VALUES (?,?,?)");
-        $stm->bind_param('sii', $dt_evento, $id_ctrl, $qtd);
-        $stm->execute();
-        
-        $mysqli->commit(); // Confirma a transação
-        $_POST['remedio'] = null;
-        include('../consulta.php'); // Inclui o arquivo de consulta após a conclusão bem-sucedida
-    } catch (\Throwable $th) {
-        $_SESSION['erro_msg'] = $id_ctrl . $th->getMessage();
-        $mysqli->rollback(); // Desfaz a transação em caso de erro
-        include('../saida.php'); // Inclui o arquivo de saída em caso de erro
-    } finally {
-        $mysqli->close(); // Fecha a conexão com o banco de dados
-    }
-?>
-
-<!-- O restante do código HTML -->
-<header>
-    <!-- Cabeçalho -->
-</header>
-<div class="flex-container">
-    <!-- Formulário -->
-</div>
-<footer>
-    <!-- Rodapé -->
-</footer>
+                                foreach ($medicamentos as $med) {
+                                    $selected = ($med['id'] == $ctrl['id_med']) ? 'selected' : '';
+                                    echo "<option value='{$med['id']}' $selected>{$med['nome']}</option>";
+                                }
+                                ?>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td_txt">
+                            Data de Saída:
+                        </td>
+                        <td class="td_input">
+                            <input type="date" name="dt_saida" class="form_dt" value="<?php echo date("Y-m-d"); ?>">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td_txt">
+                            Número do Lote:
+                        </td>
+                        <td class="td_input">
+                            <input type="text" placeholder="Nº do lote" name="lote" class="txt_lote" value="<?php echo $ctrl ? $ctrl['lote'] : '' ?>"></input>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td class="td_txt">
+                            Quantidade:
+                        </td>
+                        <td class="td_input">
+                            <input type="text" placeholder="Quantia" name="qtd" class="txt_quantia" value="<?php echo $ctrl ? $ctrl['qtd'] : '' ?>">
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td>
+                            <input type='submit' value="Cadastrar" class="btn_confirm">
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </form>
+    </div>
+    <footer>
+        <div class="rodape">
+            <a href="/pages/telaPrincipal.php"><button class="back_btn">Voltar</button></a>
+        </div>
+    </footer>
 </body>
 
 </html>

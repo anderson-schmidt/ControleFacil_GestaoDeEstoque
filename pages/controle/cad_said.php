@@ -9,7 +9,7 @@
     $reme = $_POST['remedio'];
     $lot = $_POST['lote'];
     $dt_evento = $_POST['dt_entrada'];
-    $qtd = $_POST['qtd'];
+    $qtd = intval($_POST['qtd'])*-1;
     $qtdRes = 0;
     $id_ctrl  = 0;
 
@@ -29,7 +29,7 @@
         if ($r) {
             if ($_POST['id_controle'] == "") {
                 // Subtrai a quantidade informada do estoque, garantindo que o resultado não seja negativo
-                $qtdRes = max(0, $r['qtd'] - $qtd);
+                $qtdRes = max(0, $r['qtd'] - ($qtd*-1));
             }
             $id_ctrl  = $r['id'];
         } else {
